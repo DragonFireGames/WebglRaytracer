@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="utf8">
+  <title>WebGL Path Tracing</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="Wugl.js"></script>
+  <script src="whammy.js"></script>
+  <script src="tracer.js"></script>
+  <script src="scene.js"></script>
+</head><body>
+  <h1>WebGL Path Tracing</h1>
+
+  <p>Path tracing is a realistic lighting algorithm that simulates light bouncing around a scene.&nbsp; This path tracer uses WebGL for realtime performance and supports diffuse, mirrored, and glossy surfaces.&nbsp; The path tracer is continually rendering, so the scene will start off grainy and become smoother over time.&nbsp; Here's how to interact with it:</p>
+
+  <ul>
+    <li>Add an object using the "Add Sphere" or "Add Cube" buttons</li>
+    <li>Select an object by clicking on it</li>
+    <li>Move the selection along the face of its selection box by dragging around on that face</li>
+    <li>Delete the selection using the backspace key</li>
+    <li>Rotate the camera by dragging the background</li>
+  </ul>
+
+  <div id="main">
+    <canvas id="canvas" width="512" height="512" crossorigin=""></canvas>
+    <div id="error"><noscript>Please enable JavaScript.</noscript></div>
+
+    <p>
+      <button onclick="javascript:ui.selectLight()">Select Light</button>
+      <button onclick="javascript:ui.addSphere()">Add Sphere</button>
+      <button onclick="javascript:ui.addCube()">Add Cube</button>
+      <button onclick="javascript:ui.addCone()">Add Cone</button>
+      <button onclick="javascript:ui.addCylinder()">Add Cylinder</button>
+      <button onclick="javascript:ui.addTorus()">Add Torus</button>
+      <button onclick="javascript:ui.addStar()">Add Star</button>
+    </p>
+    
+    <p>
+      <button onclick="javascript:capture=true;">Capture</button>
+    </p>
+
+    <p>
+      <b>Material:</b>
+      <select id="material">
+        <option value="0" selected>Diffuse</option>
+        <option value="1">Mirror</option>
+        <option value="2">Glossy</option>
+        <option value="3">Glass</option>
+        <option value="4">Smooth</option>
+        <option value="5">Bubble</option>
+        <option value="6">Emissive</option>
+      </select>
+      <span id="glossiness-factor">
+        <br>with glossiness factor: 0 &lt; <input id="glossiness" value="0.6"> &lt; 1
+      </span>
+      <br>
+
+      <b>Environment:</b>
+      <select id="environment">
+        <option value="0" selected>Cornell Box - Yellow and Blue</option>
+        <option value="1">Cornell Box - Red and Green</option>
+      </select>
+    </p>
+    
+    <p>
+      <b>Debug:</b>
+      <button onclick="javascript:debugMode='normals'; ui.setScene(ui.scene)">View Normals</button>
+      <button onclick="javascript:debugMode='uvs'; ui.setScene(ui.scene)">View UVs</button>
+      <button onclick="javascript:debugMode='depth'; ui.setScene(ui.scene)">View Depths</button>
+      <button onclick="javascript:debugMode='colorMask'; ui.setScene(ui.scene)">View Mask</button>
+      <button onclick="javascript:debugMode=false; ui.setScene(ui.scene)">Tracer View</button>
+    Bounces:
+    <input type="number" value="12" onchange="bounces = this.value;">
+    </p>
+
+    <p>
+      <b id="preset">Load preset scene:</b>
+    </p>
+    <p>
+      <button onclick="javascript:spinRecord2()">Record</button>
+    </p>
+  </div>
+
+  <p>The entire scene is dynamically compiled into a GLSL shader.&nbsp; Everything can be repositioned using the current shader, but any geometry or material change means a recompilation.&nbsp; To calculate a pixel color, a ray is shot into the scene and allowed to bounce around five times.&nbsp; At each bounce, the direct light incoming at that point (including shadows) is multiplied by all previous material colors and accumulated.&nbsp; Soft shadows are achieved by randomly jittering the light position per-pixel.&nbsp; The path tracing solution will only completely converge if your browser supports rendering to a floating-point texture.</p>
+  <p id="footer">Made by <a href="/">Evan Wallace</a> in 2010</p>
+</body></html>
