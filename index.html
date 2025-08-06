@@ -76,10 +76,10 @@
       <b id="preset">Load preset scene:</b>
     </p>
     <p>
-      <button onclick="javascript:spinRecord2()">Record</button>
+      <button onclick="javascript:spinRecord2()">Spin Record</button>
     </p>
   </div>
 
   <p>The entire scene is dynamically compiled into a GLSL shader.&nbsp; Everything can be repositioned using the current shader, but any geometry or material change means a recompilation.&nbsp; To calculate a pixel color, a ray is shot into the scene and allowed to bounce around five times.&nbsp; At each bounce, the direct light incoming at that point (including shadows) is multiplied by all previous material colors and accumulated.&nbsp; Soft shadows are achieved by randomly jittering the light position per-pixel.&nbsp; The path tracing solution will only completely converge if your browser supports rendering to a floating-point texture.</p>
-  <p id="footer">Made by <a href="/">Evan Wallace</a> in 2010</p>
+  <p id="footer">Made by <a href="https://github.com/DragonFireGames">DragonFireGames</a> in 2025<br>Adapted from <a href="https://madebyevan.com/webgl-path-tracing/">https://madebyevan.com/webgl-path-tracing/</a></p>
 </body></html>
